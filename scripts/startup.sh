@@ -68,11 +68,33 @@ pacman_check() {
     fi
 }
 
+# @description Warn if the ISO was started in legacy BIOS mode. On a UEFI-only
+#   laptop a BIOS-mode install leaves the machine with "no bootable device".
+boot_mode_check() {
+    if [[ -d /sys/firmware/efi ]]; then
+        return 0
+    fi
+    echo -ne "
+WARNING: this ISO was started in legacy BIOS mode, so MisguidedArch would
+install a BIOS bootloader. Most computers from the last ten years start in
+UEFI mode and will then find no bootable device.
+
+Unless this computer really only supports BIOS, reboot and pick the USB entry
+that starts with 'UEFI:' in the boot menu (and turn off CSM/Legacy boot in the
+firmware settings).
+"
+    read -rp "Type BIOS to install in BIOS mode anyway, or anything else to stop: " answer
+    if [[ "$answer" != "BIOS" ]]; then
+        exit 0
+    fi
+}
+
 background_checks() {
     root_check
     arch_check
     pacman_check
     docker_check
+    boot_mode_check
 }
 
 # Renders a text based list of options that can be selected by the
