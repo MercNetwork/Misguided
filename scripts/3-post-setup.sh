@@ -28,7 +28,13 @@ GRUB EFI Bootloader Install & Check
 source ${HOME}/MisguidedArch/configs/setup.conf
 
 if [[ -d "/sys/firmware/efi" ]]; then
-    grub-install --efi-directory=/boot ${DISK}
+    # Normal install: writes EFI/GRUB/grubx64.efi and adds a "GRUB" entry to the
+    # firmware's boot menu.
+    grub-install --target=x86_64-efi --efi-directory=/boot --bootloader-id=GRUB
+    # Fallback copy at the standard path EFI/BOOT/BOOTX64.EFI. Many laptops ignore
+    # or forget the boot entry above and only look for this file; without it they
+    # report "no bootable device".
+    grub-install --target=x86_64-efi --efi-directory=/boot --removable
 fi
 
 echo -ne "
