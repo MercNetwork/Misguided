@@ -7,8 +7,6 @@ script, answer a few questions, and get a finished desktop running on the
 **CachyOS optimised repositories**, with Erik Dubois' **Arch Linux Tweak Tool**
 ready to go.
 
-> MisguidedArch is based on an MIT-licensed installer; the original copyright notice is kept in `LICENSE` as that license requires.
-
 ## What it does
 
 - Partitions and formats the disk you choose (btrfs, ext4, or LUKS-encrypted btrfs)
@@ -25,8 +23,8 @@ From the Arch ISO, connected to the internet:
 
 ```bash
 pacman -Sy git
-git clone https://github.com/YOUR_GITHUB_USERNAME/MisguidedArch
-cd MisguidedArch
+git clone https://github.com/MercNetwork/Misguided
+cd Misguided
 ./misguidedarch.sh
 ```
 
